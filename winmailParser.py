@@ -11,7 +11,13 @@ if __name__ == '__main__':
     fileName = sys.argv[1]
 
     fp = open(fileName, 'rb')
-    signature = struct.unpack('<I',fp.read(4))[0]
+    buf = fp.read()
+    fp.close()
+    signature = struct.unpack('<I', buf[:4])[0]
 
     if signature == WINMAIL_SIGNATURE:    
         print('This is TNEF Format')
+
+    attachKey = struct.unpack('<H', buf[4:6])[0]
+
+    print(attachKey)
